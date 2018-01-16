@@ -38,11 +38,7 @@ class SQLObject
   end
 
   def self.table_name
-    if @tabe_name
-      return @table_name
-    else
-      @table_name = self.name.underscore + "s"
-    end
+    @table_name || @table_name = self.name.tableize
   end
 
   def self.all
