@@ -1,12 +1,11 @@
-require_relative "lib/01_sql_object"
-require "pry"
+require_relative "sql_object"
 # split into three, house inside library
 
-class Studio < SQLObject
-  self.finalize!
-end
 
 class Yogi < SQLObject
+  self.finalize!
+end
+class Studio < SQLObject
   self.finalize!
 end
 
