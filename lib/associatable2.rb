@@ -4,16 +4,11 @@ module Associatable
   # Remember to go back to 04_associatable to write ::assoc_options
 
   def has_one_through(name, through_name, source_name)
-    debugger
-    p through_options = self.assoc_options[through_name]
-    p source_options= through_options.model_class.assoc_options[source_name]
-
     define_method(name) do
-      debugger
-      p source = source_name.to_s
-      p from_table = through_name.to_s.capitalize.constantize.table_name
-      p source_table = source.tableize
-       data = DBConnection.execute(<<-SQL)
+      source = source_name.to_s
+      from_table = through_name.to_s.capitalize.constantize.table_name
+      source_table = source.tableize
+       data = DBConnection.execute(<<-SQL, self.owner_id)
        SELECT
           #{source_table}.*
         FROM
@@ -23,6 +18,8 @@ module Associatable
         WHERE
           #{from_table}.id = ?
         SQL
+
+        House.new(data.first)
     end
   end
 end
